@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mappa di Maastricht</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBEeKotSYx-U-z-S0lYGKhg8ip5F51l1Vk&callback=initMap" async defer></script>
+    <style>
+        /* Imposta la dimensione della mappa */
+        #map {
+            height: 100%;
+            width: 100%;
+        }
+        /* Imposta il layout per il corpo */
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+
+    <script>
+        let map;
+        let userMarker;
+
+        // Funzione di inizializzazione della mappa
+        function initMap() {
+            // Le coordinate di Maastricht
+            const maastricht = { lat: 50.8514, lng: 5.6900 };
+
+            // Crea la mappa centrata su Maastricht
+            map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 13,
+                center: maastricht,
+            });
+
+            // Aggiungi un marker per Maastricht
+            new google.maps.Marker({
+                position: maastricht,
+                map: map,
+                title: "Maastricht",
+            });
+
+            // Verifica se il browser supporta la geolocalizzazione
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        const userLocation = {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude,
+                        };
+
+                        // Imposta la mappa sulla posizione dell'utente
+                        map.setCenter(userLocation);
+                        map.setZoom(14);
+
+                        // Aggiungi un marker per la posizione dell'utente
+                        if (userMarker) {
+                            userMarker.setMap(null); // Rimuove il marker precedente
+                        }
+                        userMarker = new google.maps.Marker({
+                            position: userLocation,
+                            map: map,
+                            title: "Posizione dell'utente",
+                        });
+                    },
+                    function() {
+                        alert("Errore nel recupero della posizione dell'utente.");
+                    }
+                );
+            } else {
+                alert("La geolocalizzazione non è supportata dal tuo browser.");
+            }
+        }
+    </script>
+</body>
+</html>
