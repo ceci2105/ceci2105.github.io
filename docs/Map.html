@@ -27,20 +27,13 @@
 
         // Funzione di inizializzazione della mappa
         function initMap() {
-            // Le coordinate di Maastricht
+            // Le coordinate di Maastricht (centro della mappa, senza marker)
             const maastricht = { lat: 50.8514, lng: 5.6900 };
 
             // Crea la mappa centrata su Maastricht
             map = new google.maps.Map(document.getElementById("map"), {
                 zoom: 13,
                 center: maastricht,
-            });
-
-            // Aggiungi un marker per Maastricht
-            new google.maps.Marker({
-                position: maastricht,
-                map: map,
-                title: "Maastricht",
             });
 
             // Verifica se il browser supporta la geolocalizzazione
@@ -77,3 +70,4 @@
     </script>
 </body>
 </html>
+
