@@ -11,7 +11,7 @@
             height: 100%;
             width: 100%;
         }
-        /* Set body layout */
+        /* Set layout for the body */
         html, body {
             height: 100%;
             margin: 0;
@@ -25,7 +25,7 @@
         let map;
         let userMarker;
 
-        // List of common locations with coordinates
+        // List of locations with coordinates
         const locations = [
             { name: "Train Station", lat: 50.8506, lng: 5.7148 },
             { name: "MUMC", lat: 50.8173, lng: 5.7210 },
@@ -66,16 +66,15 @@
                 center: { lat: 50.8514, lng: 5.6900 }
             });
 
-            // Add markers for common locations with a yellow flag icon
+            // Add markers for common places
             locations.forEach(location => {
                 const marker = new google.maps.Marker({
                     position: { lat: location.lat, lng: location.lng },
                     map: map,
-                    title: location.name,
-                    icon: "http://maps.google.com/mapfiles/kml/shapes/flag.png" 
+                    title: location.name
                 });
 
-                // Add an info window with the location name
+                // Add an info window with the location name when clicked
                 const infoWindow = new google.maps.InfoWindow({
                     content: `<strong>${location.name}</strong>`
                 });
@@ -85,7 +84,7 @@
                 });
             });
 
-            // Check if geolocation is supported
+            // Check if the browser supports geolocation
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     function(position) {
@@ -94,23 +93,23 @@
                             lng: position.coords.longitude
                         };
 
-                        // Center the map on the user's location
+                        // Set the map to the user's location
                         map.setCenter(userLocation);
                         map.setZoom(14);
 
                         // Add a marker for the user's location
                         if (userMarker) {
-                            userMarker.setMap(null); // Remove the previous marker
+                            userMarker.setMap(null); // Remove previous marker
                         }
                         userMarker = new google.maps.Marker({
                             position: userLocation,
                             map: map,
                             title: "User Location",
-                            icon: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png" // Blue dot for user
+                            icon: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png" // Blue marker for user
                         });
                     },
                     function() {
-                        alert("Error retrieving user's location.");
+                        alert("Error retrieving user location.");
                     }
                 );
             } else {
@@ -120,6 +119,5 @@
     </script>
 </body>
 </html>
-
 
 
