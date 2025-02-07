@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mappa di Maastricht</title>
+    <title>Maastricht Map</title>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBEeKotSYx-U-z-S0lYGKhg8ip5F51l1Vk&callback=initMap" async defer></script>
     <style>
-        /* Imposta la dimensione della mappa */
+        /* Set map size */
         #map {
             height: 100%;
             width: 100%;
         }
-        /* Imposta il layout per il corpo */
+        /* Set body layout */
         html, body {
             height: 100%;
             margin: 0;
@@ -25,7 +25,7 @@
         let map;
         let userMarker;
 
-        // Lista di luoghi con le coordinate
+        // List of common locations with coordinates
         const locations = [
             { name: "Train Station", lat: 50.8506, lng: 5.7148 },
             { name: "MUMC", lat: 50.8173, lng: 5.7210 },
@@ -60,21 +60,22 @@
         ];
 
         function initMap() {
-            // Imposta il centro iniziale su Maastricht
+            // Set initial center on Maastricht
             map = new google.maps.Map(document.getElementById("map"), {
                 zoom: 13,
                 center: { lat: 50.8514, lng: 5.6900 }
             });
 
-            // Aggiungi i marker ai luoghi comuni
+            // Add markers for common locations with a yellow flag icon
             locations.forEach(location => {
                 const marker = new google.maps.Marker({
                     position: { lat: location.lat, lng: location.lng },
                     map: map,
-                    title: location.name
+                    title: location.name,
+                    icon: "http://maps.google.com/mapfiles/ms/icons/yellow-flag.png" // Yellow flag icon
                 });
 
-                // Aggiunge una finestra con il nome del luogo quando si clicca
+                // Add an info window with the location name
                 const infoWindow = new google.maps.InfoWindow({
                     content: `<strong>${location.name}</strong>`
                 });
@@ -84,7 +85,7 @@
                 });
             });
 
-            // Verifica se il browser supporta la geolocalizzazione
+            // Check if geolocation is supported
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     function(position) {
@@ -93,31 +94,32 @@
                             lng: position.coords.longitude
                         };
 
-                        // Imposta la mappa sulla posizione dell'utente
+                        // Center the map on the user's location
                         map.setCenter(userLocation);
                         map.setZoom(14);
 
-                        // Aggiungi un marker per la posizione dell'utente
+                        // Add a marker for the user's location
                         if (userMarker) {
-                            userMarker.setMap(null); // Rimuove il marker precedente
+                            userMarker.setMap(null); // Remove the previous marker
                         }
                         userMarker = new google.maps.Marker({
                             position: userLocation,
                             map: map,
-                            title: "Posizione dell'utente",
-                            icon: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png" // Marker blu per l'utente
+                            title: "User Location",
+                            icon: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png" // Blue dot for user
                         });
                     },
                     function() {
-                        alert("Errore nel recupero della posizione dell'utente.");
+                        alert("Error retrieving user's location.");
                     }
                 );
             } else {
-                alert("La geolocalizzazione non è supportata dal tuo browser.");
+                alert("Geolocation is not supported by your browser.");
             }
         }
     </script>
 </body>
 </html>
+
 
 
