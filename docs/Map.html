@@ -44,13 +44,11 @@
 
                 const infoWindow = new google.maps.InfoWindow();
 
-                marker.addListener("click", () => {
-                    let tripList = location.trips.map(trip => 
-                        `<p><a href="#" onclick="bookTrip('${trip}')">${trip}</a></p>`
-                    ).join("");
-                    infoWindow.setContent(`<strong>${location.name}</strong><br>${tripList}`);
-                    infoWindow.open(map, marker);
-                });
+              marker.addListener("click", () => {
+              infoWindow.setContent(`<strong>${location.name}</strong>`);
+              infoWindow.open(map, marker);
+              });
+
             });
 
             if (navigator.geolocation) {
