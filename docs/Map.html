@@ -6,12 +6,10 @@
     <title>Maastricht Map</title>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBEeKotSYx-U-z-S0lYGKhg8ip5F51l1Vk&callback=initMap" async defer></script>
     <style>
-        /* Set map size */
         #map {
             height: 100%;
             width: 100%;
         }
-        /* Set layout for the body */
         html, body {
             height: 100%;
             margin: 0;
@@ -20,71 +18,41 @@
 </head>
 <body>
     <div id="map"></div>
-
     <script>
         let map;
         let userMarker;
 
-        // List of locations with coordinates
         const locations = [
-            { name: "Train Station", lat: 50.8506, lng: 5.7148 },
-            { name: "MUMC", lat: 50.8173, lng: 5.7210 },
-            { name: "Wick Ceramique", lat: 50.8480, lng: 5.7015 },
-            { name: "Wyckerpoort", lat: 50.8535, lng: 5.7102 },
-            { name: "Randwyck", lat: 50.8302, lng: 5.7176 },
-            { name: "Heugem", lat: 50.8250, lng: 5.7328 },
-            { name: "De Heeg", lat: 50.8110, lng: 5.7394 },
-            { name: "Gronsveld", lat: 50.8017, lng: 5.7342 },
-            { name: "Stadion de Geusselt", lat: 50.8617, lng: 5.7147 },
-            { name: "Amby", lat: 50.8670, lng: 5.7464 },
-            { name: "Nazareth", lat: 50.8715, lng: 5.7101 },
-            { name: "Limmel", lat: 50.8676, lng: 5.7249 },
-            { name: "Bushpoort", lat: 50.8560, lng: 5.6815 },
-            { name: "Belvedere", lat: 50.8573, lng: 5.6854 },
-            { name: "Boosscherveld", lat: 50.8723, lng: 5.6998 },
-            { name: "Caberg", lat: 50.8690, lng: 5.6845 },
-            { name: "Malberg", lat: 50.8705, lng: 5.6712 },
-            { name: "Malpertuis", lat: 50.8597, lng: 5.6893 },
-            { name: "Pottenberg", lat: 50.8593, lng: 5.6761 },
-            { name: "Brusselsepoort", lat: 50.8532, lng: 5.6820 },
-            { name: "Mariaberg", lat: 50.8492, lng: 5.6798 },
-            { name: "Belfort", lat: 50.8505, lng: 5.6706 },
-            { name: "Daalhof", lat: 50.8498, lng: 5.6614 },
-            { name: "Mosae Forum", lat: 50.8494, lng: 5.6921 },
-            { name: "Kommelkwartier", lat: 50.8467, lng: 5.6860 },
-            { name: "Jekerwartier", lat: 50.8445, lng: 5.6877 },
-            { name: "Biesland", lat: 50.8407, lng: 5.6901 },
-            { name: "Campagne", lat: 50.8376, lng: 5.6667 },
-            { name: "Jekerdal", lat: 50.8338, lng: 5.6889 },
-            { name: "Villapark", lat: 50.8415, lng: 5.6890 }
+            { name: "Train Station", lat: 50.8506, lng: 5.7148},
+            { name: "MUMC", lat: 50.8173, lng: 5.7210},
+            { name: "Wick Ceramique", lat: 50.8480, lng: 5.7015}
         ];
 
         function initMap() {
-            // Set initial center on Maastricht
             map = new google.maps.Map(document.getElementById("map"), {
                 zoom: 13,
                 center: { lat: 50.8514, lng: 5.6900 }
             });
 
-            // Add markers for common places
             locations.forEach(location => {
                 const marker = new google.maps.Marker({
                     position: { lat: location.lat, lng: location.lng },
                     map: map,
-                    title: location.name
+                    title: location.name,
+                    icon: "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
                 });
 
-                // Add an info window with the location name when clicked
-                const infoWindow = new google.maps.InfoWindow({
-                    content: <strong>${location.name}</strong>
-                });
+                const infoWindow = new google.maps.InfoWindow();
 
                 marker.addListener("click", () => {
+                    let tripList = location.trips.map(trip => 
+                        `<p><a href="#" onclick="bookTrip('${trip}')">${trip}</a></p>`
+                    ).join("");
+                    infoWindow.setContent(`<strong>${location.name}</strong><br>${tripList}`);
                     infoWindow.open(map, marker);
                 });
             });
 
-            // Check if the browser supports geolocation
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     function(position) {
@@ -93,19 +61,17 @@
                             lng: position.coords.longitude
                         };
 
-                        // Set the map to the user's location
                         map.setCenter(userLocation);
                         map.setZoom(14);
 
-                        // Add a marker for the user's location
                         if (userMarker) {
-                            userMarker.setMap(null); // Remove previous marker
+                            userMarker.setMap(null);
                         }
                         userMarker = new google.maps.Marker({
                             position: userLocation,
                             map: map,
                             title: "User Location",
-                            icon: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png" // Blue marker for user
+                            icon: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
                         });
                     },
                     function() {
@@ -115,6 +81,11 @@
             } else {
                 alert("Geolocation is not supported by your browser.");
             }
+        }
+
+        function bookTrip(trip) {
+            alert(`You have booked: ${trip}`);
+            // Here you could implement further logic to store the booking in a database
         }
     </script>
 </body>
