@@ -24,12 +24,13 @@
             padding: 20px;
             border: 1px solid #ccc;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
         }
     </style>
 </head>
 <body>
     <div id="map"></div>
-     <div id="trip-form">
+    <div id="trip-form">
         <h3>Add Trip</h3>
         <label>Departure Time: <input type="text" id="departure-time"></label><br>
         <label>Name: <input type="text" id="trip-name"></label><br>
@@ -123,11 +124,26 @@
             { name: "Mosae Forum", lat: 50.85162045603398, lng: 5.692796525519987, trips: ["10:00 - Bob → MUMC", "06:50 - Ian → Gronsveld"]}
         ];
 
-       function initMap() {
+        function initMap() {
             map = new google.maps.Map(document.getElementById("map"), {
                 center: { lat: 50.851368, lng: 5.690973 },
                 zoom: 14,
             });
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(position => {
+                    const userLocation = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+                    map.setCenter(userLocation);
+                    new google.maps.Marker({
+                        position: userLocation,
+                        map: map,
+                        title: "Your Location"
+                    });
+                });
+            }
 
             locations.forEach(loc => {
                 addMarker({ lat: loc.lat, lng: loc.lng }, loc.name, loc.trips);
