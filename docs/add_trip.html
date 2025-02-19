@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aggiungi Viaggio</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            height: 100vh;
+        }
+
+        .marker-icon {
+            position: absolute;
+            transform: translate(-50%, -50%);
+            cursor: pointer;
+        }
+
+        .add-trip-btn {
+            position: absolute;
+            bottom: 50px;
+            right: 50px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .add-trip-btn:hover {
+            background-color: #45a049;
+        }
+
+        #trip-form {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        #trip-form input, #trip-form button {
+            margin-bottom: 10px;
+            padding: 8px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<!-- Bottone "+" per aggiungere un viaggio -->
+<button class="add-trip-btn" onclick="toggleForm()">+</button>
+
+<!-- Form per inserire un viaggio -->
+<div id="trip-form">
+    <h3>Aggiungi un viaggio</h3>
+    <label for="destination">Destinazione:</label>
+    <input type="text" id="destination" name="destination" placeholder="Inserisci la destinazione">
+    <label for="date">Data di partenza:</label>
+    <input type="date" id="date" name="date">
+    <button onclick="addTrip()">Aggiungi</button>
+    <button onclick="toggleForm()">Annulla</button>
+</div>
+
+<script>
+    let map;
+    let markers = [];
+    let currentMarker = null; // Variabile per tenere traccia del marker selezionato
+
+    // Funzione per inizializzare la mappa
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: { lat: 41.9028, lng: 12.4964 }, // Centro di Roma, per esempio
+            zoom: 10
+        });
+
+        // Aggiungi un listener per creare il marker quando l'utente clicca sulla mappa
+        map.addListener('click', function(event) {
+            addMarker(event.latLng);
+        });
+    }
+
+    // Funzione per aggiungere un marker sulla mappa
+    function addMarker(location) {
+        const marker = new google.maps.Marker({
+            position: location,
+            map: map,
+            title: 'Nuovo Viaggio'
+        });
+
+        // Aggiungi il marker all'array per poterlo gestire successivamente
+        markers.push(marker);
+        
+        // Aggiungi un'icona "+" sopra il marker per l'aggiunta del viaggio
+        const addIcon = document.createElement('div');
+        addIcon.classList.add('marker-icon');
+        addIcon.innerHTML = '+';
+        addIcon.onclick = function() {
+            currentMarker = marker; // Salva il marker selezionato
+            toggleForm(); // Mostra il form per aggiungere un viaggio
+        };
+
+        const overlay = new google.maps.OverlayView();
+        overlay.onAdd = function() {
+            const div = document.createElement('div');
+            div.appendChild(addIcon);
+            this.getPanes().overlayMouseTarget.appendChild(div);
+        };
+        overlay.draw = function() {
+            const position = marker.getPosition();
+            const proj = overlay.getProjection();
+            const pixelPosition = proj.fromLatLngToDivPixel(position);
+            addIcon.style.left = `${pixelPosition.x - 30}px`; // Centra il "+" sopra il marker
+            addIcon.style.top = `${pixelPosition.y - 30}px`;
+        };
+        overlay.setMap(map);
+    }
+
+    // Funzione per mostrare/nascondere il modulo per l'aggiunta di un viaggio
+    function toggleForm() {
+        const form = document.getElementById('trip-form');
+        form.style.display = (form.style.display === 'none' || form.style.display === '') ? 'block' : 'none';
+    }
+
+    // Funzione per aggiungere il viaggio
+    function addTrip() {
+        const destination = document.getElementById('destination').value;
+        const date = document.getElementById('date').value;
+
+        if (destination && date && currentMarker) {
+            alert(`Viaggio aggiunto! Destinazione: ${destination}, Data: ${date}`);
+
+            // Aggiungi il viaggio al marker
+            currentMarker.setTitle(`Viaggio: ${destination}, Data: ${date}`);
+
+            // Nascondi il form e resetta i campi
+            toggleForm();
+            document.getElementById('destination').value = '';
+            document.getElementById('date').value = '';
+        } else {
+            alert('Compila tutti i campi!');
+        }
+    }
+
+    // Carica la mappa quando la pagina è pronta
+    window.onload = initMap;
+</script>
+
+<!-- Carica l'API di Google Maps -->
+<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
+</body>
+</html>
