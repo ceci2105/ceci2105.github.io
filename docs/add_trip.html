@@ -19,6 +19,15 @@
             position: absolute;
             transform: translate(-50%, -50%);
             cursor: pointer;
+            font-size: 24px;
+            color: #fff;
+            background-color: #4CAF50;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .add-trip-btn {
@@ -107,30 +116,30 @@
 
         // Aggiungi il marker all'array per poterlo gestire successivamente
         markers.push(marker);
-        
+
         // Aggiungi un'icona "+" sopra il marker per l'aggiunta del viaggio
         const addIcon = document.createElement('div');
         addIcon.classList.add('marker-icon');
         addIcon.innerHTML = '+';
+
+        // Aggiungi l'evento click all'icona "+"
         addIcon.onclick = function() {
             currentMarker = marker; // Salva il marker selezionato
             toggleForm(); // Mostra il form per aggiungere un viaggio
         };
 
-        const overlay = new google.maps.OverlayView();
-        overlay.onAdd = function() {
-            const div = document.createElement('div');
-            div.appendChild(addIcon);
-            this.getPanes().overlayMouseTarget.appendChild(div);
-        };
-        overlay.draw = function() {
-            const position = marker.getPosition();
-            const proj = overlay.getProjection();
-            const pixelPosition = proj.fromLatLngToDivPixel(position);
-            addIcon.style.left = `${pixelPosition.x - 30}px`; // Centra il "+" sopra il marker
-            addIcon.style.top = `${pixelPosition.y - 30}px`;
-        };
-        overlay.setMap(map);
+        // Posizioniamo l'icona "+" sopra il marker
+        const markerPosition = marker.getPosition();
+        const projection = map.getProjection();
+        const point = projection.fromLatLngToPoint(markerPosition);
+
+        // Posizioniamo l'icona sulla mappa usando il punto proiettato
+        addIcon.style.position = 'absolute';
+        addIcon.style.left = `${point.x - 15}px`;  // Centra il "+" rispetto al marker
+        addIcon.style.top = `${point.y - 15}px`;   // Centra il "+" rispetto al marker
+
+        // Aggiungi l'icona alla mappa
+        document.getElementById('map').appendChild(addIcon);
     }
 
     // Funzione per mostrare/nascondere il modulo per l'aggiunta di un viaggio
@@ -165,5 +174,7 @@
 
 <!-- Carica l'API di Google Maps -->
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBEeKotSYx-U-z-S0lYGKhg8ip5F51l1Vk&callback=initMap" async defer></script>
+
 </body>
 </html>
+
