@@ -13,6 +13,10 @@
         html, body {
             height: 100%;
             margin: 0;
+        }.add-trip {
+            cursor: pointer;
+            color: green;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -119,15 +123,20 @@
 
                 const infoWindow = new google.maps.InfoWindow();
 
-                marker.addListener("click", () => {
+                 marker.addListener("click", () => {
                     let tripList = location.trips.map(trip => 
                         `<p><a href="#" onclick="bookTrip('${trip}')">${trip}</a></p>`
                     ).join("");
-                    infoWindow.setContent(`<strong>${location.name}</strong><br>${tripList}`);
+                    const contentString = `
+                        <strong>${location.name}</strong><br>
+                        ${tripList}
+                        <p class="add-trip" onclick="addTrip('${location.name}')">+ Aggiungi Viaggio</p>
+                    `;
+                    infoWindow.setContent(contentString);
                     infoWindow.open(map, marker);
                 });
             });
-
+            
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     function(position) {
@@ -161,6 +170,10 @@
         function bookTrip(trip) {
             alert(`You have booked: ${trip}`);
             // Here you could implement further logic to store the booking in a database
+        }
+        function bookTrip(tripDetails) {
+            alert(`Viaggio prenotato: ${tripDetails}`);
+            // Qui puoi aggiungere la logica per prenotare un viaggio
         }
     </script>
 </body>
