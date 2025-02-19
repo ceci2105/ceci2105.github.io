@@ -119,6 +119,24 @@
 
                 const infoWindow = new google.maps.InfoWindow();
 
+                // Create the clickable + icon above the marker
+                const plusSign = document.createElement('div');
+                plusSign.classList.add('plus-sign');
+                plusSign.innerHTML = "+";
+
+                const plusMarker = new google.maps.OverlayView();
+                plusMarker.onAdd = function () {
+                    const layer = document.createElement('div');
+                    layer.style.position = 'absolute';
+                    layer.style.left = '-20px';
+                    layer.style.top = '-20px';
+                    layer.appendChild(plusSign);
+
+                    this.getPanes().overlayLayer.appendChild(layer);
+                };
+
+                plusMarker.setMap(map);
+
                 marker.addListener("click", () => {
                     let tripList = location.trips.map(trip => 
                         `<p><a href="#" onclick="bookTrip('${trip}')">${trip}</a></p>`
