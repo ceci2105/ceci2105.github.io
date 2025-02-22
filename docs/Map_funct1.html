@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Maastricht Map</title>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBEeKotSYx-U-z-S0lYGKhg8ip5F51l1Vk&callback=initMap" async defer></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBEeKotSYx-U-z-S0lYGKhg8ip5F51l1Vk&callback=initMap"></script>
     <style>
         #map {
             height: 100%;
@@ -107,11 +107,14 @@
             { name: "Mosae Forum", lat: 50.85162045603398, lng: 5.692796525519987, trips: ["10:00 - Bob → MUMC", "06:50 - Ian → Gronsveld"]}
         ];
 
-        function initMap() {
-            map = new google.maps.Map(document.getElementById("map"), {
-                zoom: 13,
-                center: { lat: 50.8514, lng: 5.6900 }
-            });
+        <script>
+  function initMap() {
+    map = new google.maps.Map(document.getElementById("map"), {
+      center: { lat: 50.849575, lng: 5.704658 },
+      zoom: 13
+    });
+  }
+</script>
 
             window.initMap = initMap;
 
