@@ -124,6 +124,10 @@
                     let tripList = location.trips.map(trip => 
                         `<p><a href="#" onclick="bookTrip('${trip}')">${trip}</a></p>`
                     ).join("");
+
+                    tripList += `
+                        <p><button onclick="addTrip('${location.name}')">Add Trip</button></p>
+                    `;
                     infoWindow.setContent(`<strong>${location.name}</strong><br>${tripList}`);
                     infoWindow.open(map, marker);
                 });
@@ -162,6 +166,21 @@
         function bookTrip(trip) {
             alert(`You have booked: ${trip}`);
             // Here you could implement further logic to store the booking in a database
+        }
+
+         function addTrip(locationName) {
+            const trip = prompt("Enter trip details (e.g., 10:30 - Alice → Heerlen):");
+            if (trip) {
+                const location = locations.find(loc => loc.name === locationName);
+                if (location) {
+                    location.trips.push(trip);
+                    alert("Trip added!");
+                    // Optionally, trigger a refresh to update the info window
+                    initMap(); // reinitialize the map with the updated trips
+                } else {
+                    alert("Location not found.");
+                }
+            }
         }
     </script>
 </body>
