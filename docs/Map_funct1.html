@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Maastricht Map</title>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBEeKotSYx-U-z-S0lYGKhg8ip5F51l1Vk&callback=initMap"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBEeKotSYx-U-z-S0lYGKhg8ip5F51l1Vk&callback=initMap" async defer></script>
     <style>
         #map {
             height: 100%;
@@ -13,10 +13,6 @@
         html, body {
             height: 100%;
             margin: 0;
-        }.add-trip {
-            cursor: pointer;
-            color: green;
-            font-weight: bold;
         }
     </style>
 </head>
@@ -27,7 +23,7 @@
         let userMarker;
 
         const locations = [
-            { name: "Train Station", lat: 50.849575762433574, lng:  5.704657554568603, trips: ["10:00 - Bob → MUMC", "06:50 - Ian → Gronsveld"] },
+             { name: "Train Station", lat: 50.849575762433574, lng:  5.704657554568603, trips: ["10:00 - Bob → MUMC", "06:50 - Ian → Gronsveld"] },
             { name: "MUMC", lat: 50.835087759029484, lng: 5.713257701833753, trips: ["07:20 - Steve → Riemst","16:00 - Tina → Bassenge"]},
             { name: "Wick Ceramique", lat: 50.84599996083748, lng:  5.701506512631677, trips: ["16:15 - Edward → Heugem"]},
             { name: "University FSE", lat: 50.83921621774164, lng:  5.7147806084907415, trips: ["10:00 - Bob → MUMC", "06:50 - Ian → Gronsveld"]},
@@ -105,18 +101,17 @@
             { name: "Jekerkwartier", lat: 50.84358401395461, lng:5.689229875167146, trips: ["10:00 - Bob → MUMC", "06:50 - Ian → Gronsveld"]},
             { name: "University FBE", lat: 50.84492929489603, lng:5.685014001658032, trips: ["10:00 - Bob → MUMC", "06:50 - Ian → Gronsveld"]},
             { name: "Mosae Forum", lat: 50.85162045603398, lng: 5.692796525519987, trips: ["10:00 - Bob → MUMC", "06:50 - Ian → Gronsveld"]}
+            
+            
+        
+            
         ];
 
-        <script>
-  function initMap() {
-    map = new google.maps.Map(document.getElementById("map"), {
-      center: { lat: 50.849575, lng: 5.704658 },
-      zoom: 13
-    });
-  }
-</script>
-
-            window.initMap = initMap;
+        function initMap() {
+            map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 13,
+                center: { lat: 50.8514, lng: 5.6900 }
+            });
 
             locations.forEach(location => {
                 const marker = new google.maps.Marker({
@@ -128,20 +123,13 @@
 
                 const infoWindow = new google.maps.InfoWindow();
 
-                 marker.addListener("click", () => {
-                    let tripList = location.trips.map(trip => 
-                        <p><a href="#" onclick="bookTrip('${trip}')">${trip}</a></p>
-                    ).join("");
-                    const contentString = 
-                        <strong>${location.name}</strong><br>
-                        ${tripList}
-                        <p class="add-trip" onclick="addTrip('${location.name}')">+ Add trip</p>
-                    ;
-                    infoWindow.setContent(contentString);
-                    infoWindow.open(map, marker);
-                });
+              marker.addListener("click", () => {
+              infoWindow.setContent(`<strong>${location.name}</strong>`);
+              infoWindow.open(map, marker);
+              });
+
             });
-            
+
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     function(position) {
@@ -173,12 +161,8 @@
         }
 
         function bookTrip(trip) {
-            alert(You have booked: ${trip});
+            alert(`You have booked: ${trip}`);
             // Here you could implement further logic to store the booking in a database
-        }
-        function bookTrip(tripDetails) {
-            alert(Viaggio prenotato: ${tripDetails});
-            // Qui puoi aggiungere la logica per prenotare un viaggio
         }
     </script>
 </body>
