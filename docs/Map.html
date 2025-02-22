@@ -126,7 +126,10 @@
               marker.addListener("click", () => {
                   let tripList = location.trips.map(trip => 
                         `<p><a href="#" onclick="bookTrip('${trip}')">${trip}</a></p>`
-                    ).join("");
+                    ).join("")
+                  tripList += `
+                        <p><button onclick="addTrip('${location.name}')">Add Trip</button></p>
+                    `;
               infoWindow.setContent(`<strong>${location.name}</strong><br>${tripList}`);
               infoWindow.open(map, marker);
               });
@@ -163,10 +166,28 @@
             }
         }
 
+         <iframe id="tripForm" src="https://docs.google.com/forms/d/e/1FAIpQLScrmHLRtRCBAT2fF3Tqc4KFuFH1Xp-MsRPBdEKIY5Fh-MF_cA/viewform?embedded=true" width="640" height="3610" frameborder="0" marginheight="0" marginwidth="0" style="display:none;"></iframe>
         function bookTrip(trip) {
             alert(`You have booked: ${trip}`);
             // Here you could implement further logic to store the booking in a database
         }
+
+    function addTrip(locationName) {
+    const trip = prompt("Enter trip details (e.g., 10:30 - Alice → Heerlen):");
+    if (trip) {
+        const location = locations.find(loc => loc.name === locationName);
+        if (location) {
+            location.trips.push(trip);
+            alert("Trip added!");
+
+            const formIframe = document.getElementById('tripForm');
+            formIframe.style.display = 'block';  // Display the form iframe
+            initMap();
+        } else {
+            alert("Location not found.");
+        }
+    }
+}
     </script>
 </body>
 </html>
