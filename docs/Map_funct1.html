@@ -102,9 +102,6 @@
             { name: "University FBE", lat: 50.84492929489603, lng:5.685014001658032, trips: ["10:00 - Bob → MUMC", "06:50 - Ian → Gronsveld"]},
             { name: "Mosae Forum", lat: 50.85162045603398, lng: 5.692796525519987, trips: ["10:00 - Bob → MUMC", "06:50 - Ian → Gronsveld"]}
             
-            
-        
-            
         ];
 
         function initMap() {
@@ -123,11 +120,13 @@
 
                 const infoWindow = new google.maps.InfoWindow();
 
-              marker.addListener("click", () => {
-              infoWindow.setContent(`<strong>${location.name}</strong>`);
-              infoWindow.open(map, marker);
-              });
-
+                marker.addListener("click", () => {
+                    let tripList = location.trips.map(trip => 
+                        `<p><a href="#" onclick="bookTrip('${trip}')">${trip}</a></p>`
+                    ).join("");
+                    infoWindow.setContent(`<strong>${location.name}</strong><br>${tripList}`);
+                    infoWindow.open(map, marker);
+                });
             });
 
             if (navigator.geolocation) {
