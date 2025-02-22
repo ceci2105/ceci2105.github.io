@@ -113,6 +113,8 @@
                 center: { lat: 50.8514, lng: 5.6900 }
             });
 
+            window.initMap = initMap;
+
             locations.forEach(location => {
                 const marker = new google.maps.Marker({
                     position: { lat: location.lat, lng: location.lng },
