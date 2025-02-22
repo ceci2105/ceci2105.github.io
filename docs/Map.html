@@ -127,7 +127,7 @@
                   let tripList = location.trips.map(trip => 
                         `<p><a href="#" onclick="bookTrip('${trip}')">${trip}</a></p>`
                     ).join("");
-              infoWindow.setContent(`<strong>${location.name}</strong>`);
+              infoWindow.setContent(`<strong>${location.name}</strong><br>${tripList}`);
               infoWindow.open(map, marker);
               });
 
