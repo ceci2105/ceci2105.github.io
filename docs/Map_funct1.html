@@ -168,9 +168,8 @@
             // Here you could implement further logic to store the booking in a database
         }
 
-
 function addTrip(locationName) {
-    const trip = prompt("Enter trip details (e.g., 10:30 - Car - Alice635 - Heerlen):");
+    const trip = prompt("Enter trip details (e.g., 10:30 - Car - Alice234 → Heerlen):");
     if (trip) {
         const location = locations.find(loc => loc.name === locationName);
         if (location) {
@@ -182,10 +181,11 @@ function addTrip(locationName) {
                 const username = prompt("Enter your username:");
                 
                 if (transport.toLowerCase() === "bike") {
-                    tripDetails = `${transport} - ${username};  // If Bike, format accordingly
+                    tripDetails = `${transport} - ${username}`;  // If Bike, format accordingly
                 } else {
                     tripDetails = `${tripDetails} - ${username} - ${destination}`;  // For Car/Motorbike
                 }
+                
                 // Add the trip to the location
                 location.trips.push(tripDetails);
                 alert("Trip added!");
@@ -198,6 +198,7 @@ function addTrip(locationName) {
         }
     }
 }
+                
                 
                 
 
