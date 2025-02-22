@@ -168,15 +168,13 @@
             // Here you could implement further logic to store the booking in a database
         }
 
+        <iframe id="tripForm" src="https://docs.google.com/forms/d/e/1FAIpQLScrmHLRtRCBAT2fF3Tqc4KFuFH1Xp-MsRPBdEKIY5Fh-MF_cA/viewform?embedded=true" width="640" height="3610" frameborder="0" marginheight="0" marginwidth="0" style="display:none;"></iframe>
+
+
          function addTrip(locationName) {
-            const trip = prompt("Enter trip details (e.g., 10:30 - Alice → Heerlen):");
-            if (trip) {
-                const location = locations.find(loc => loc.name === locationName);
-                if (location) {
-                    location.trips.push(trip);
-                    alert("Trip added!");
-                    // Optionally, trigger a refresh to update the info window
-                    initMap(); // reinitialize the map with the updated trips
+            const formIframe = document.getElementById('tripForm');
+            formIframe.style.display = 'block';
+                
                 } else {
                     alert("Location not found.");
                 }
