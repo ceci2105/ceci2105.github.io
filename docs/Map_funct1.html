@@ -169,20 +169,38 @@
         }
 
 
-
-    function addTrip(locationName) {
-    const trip = prompt("Enter trip details (e.g., 10:30 - Alice → Heerlen):");
+function addTrip(locationName) {
+    const trip = prompt("Enter trip details (e.g., 10:30 - Car - Alice635 - Heerlen):");
     if (trip) {
         const location = locations.find(loc => loc.name === locationName);
         if (location) {
-            location.trips.push(trip);
-            alert("Trip added!");
-            initMap();
+            // Prompt for the transportation method
+            const transport = prompt("Enter the means of transport (Car, Motorbike, or Bike):");
+            if (transport) {
+                let tripDetails = trip.split("→")[0].trim() + " - " + transport;  // Get the time part (before "→")
+                const destination = trip.split("→")[1].trim();  // Get the location after "→"
+                const username = prompt("Enter your username:");
+                
+                if (transport.toLowerCase() === "bike") {
+                    tripDetails = `${transport} - ${username};  // If Bike, format accordingly
+                } else {
+                    tripDetails = `${tripDetails} - ${username} - ${destination}`;  // For Car/Motorbike
+                }
+                // Add the trip to the location
+                location.trips.push(tripDetails);
+                alert("Trip added!");
+                initMap();
+            } else {
+                alert("Please specify a means of transport.");
+            }
         } else {
             alert("Location not found.");
         }
     }
 }
+                
+                
+
     </script>
 </body>
 </html>
