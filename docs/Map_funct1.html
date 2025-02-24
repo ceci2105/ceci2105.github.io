@@ -163,10 +163,16 @@
             }
         }
 
+
         function bookTrip(trip) {
             alert(`You have booked: ${trip}`);
             // Here you could implement further logic to store the booking in a database
         }
+
+    document.getElementById('addTripBtn').addEventListener('click', function() {
+    // Redirect the user to the Google Form
+    window.open("https://docs.google.com/forms/d/1FyuG_q627CEvXdoPtL7IPzSl55D8KtfTJog0sjSmpj8/edit", "_blank");
+});
 
 function addTrip(locationName) {
     const trip = prompt("Enter trip details (e.g., 10:30 - Car - Alice234 → Heerlen or Bike - Alice234):");
@@ -197,6 +203,8 @@ function addTrip(locationName) {
             alert("Location not found.");
         }
     }
+
+    window.open("https://docs.google.com/forms/d/1FyuG_q627CEvXdoPtL7IPzSl55D8KtfTJog0sjSmpj8/edit", "_blank");
 }
        
                 
