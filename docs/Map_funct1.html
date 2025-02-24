@@ -192,8 +192,8 @@ function addTrip(locationName) {
         // Salva l'array aggiornato nel localStorage
         localStorage.setItem('trips', JSON.stringify(savedTrips));
 
-        // Ricarica la mappa per mostrare il viaggio aggiunto
-        initMap(); // Questa ricarica la mappa
+        // Aggiunge il viaggio sulla mappa immediatamente
+        addTripToMap(location);
     } else {
         alert("Please enter the trip details.");
     }
@@ -204,7 +204,37 @@ function loadSavedTrips() {
     let savedTrips = JSON.parse(localStorage.getItem('trips')) || [];
 
     savedTrips.forEach(location => {
-        addTripToMap(location); // Assicurati che questa funzione aggiorni correttamente la mappa
+        addTripToMap(location); // Assicurati che questa funzione aggiunga il marker sulla mappa
+    });
+}
+
+// Questa funzione deve aggiungere il viaggio sulla mappa
+function addTripToMap(location) {
+    const geocoder = new google.maps.Geocoder();
+    
+    geocoder.geocode({ address: location.name }, function(results, status) {
+        if (status === "OK") {
+            const map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 10,
+                center: results[0].geometry.location,
+            });
+
+            // Aggiungi un marker con il nome della location e il viaggio
+            const marker = new google.maps.Marker({
+                position: results[0].geometry.location,
+                map: map,
+                title: location.name
+            });
+
+            // Aggiungere un popup con i dettagli del viaggio
+            const infowindow = new google.maps.InfoWindow({
+                content: `<strong>${location.name}</strong><br>Trips:<br> ${location.trips.join("<br>")}`
+            });
+
+            marker.addListener("click", function() {
+                infowindow.open(map, marker);
+            });
+        }
     });
 }
 
