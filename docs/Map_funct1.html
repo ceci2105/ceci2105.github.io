@@ -169,26 +169,40 @@
             // Here you could implement further logic to store the booking in a database
         }
 
+// Load trips from localStorage on page load
+document.addEventListener("DOMContentLoaded", () => {
+    const savedLocations = JSON.parse(localStorage.getItem("locations")) || [];
+    if (savedLocations.length > 0) {
+        locations = savedLocations;
+        locations.forEach(location => addTripToMap(location));
+    }
+});
+
 function addTrip(locationName) {
     const trip = prompt("Enter trip details (e.g., 10:30 - Car - Alice234 → Heerlen):");
-    
+
     if (trip) {
-        const location = locations.find(loc => loc.name === locationName);
+        let location = locations.find(loc => loc.name === locationName);
         
-        if (location) {
-            // Aggiungi il viaggio all'array della location
-            location.trips.push(trip);
-            alert("Trip added!");
-            
-            // Visualizza il viaggio sulla mappa
-            addTripToMap(location);
-        } else {
-            alert("Location not found.");
+        if (!location) {
+            // If location doesn't exist, create a new one
+            location = { name: locationName, trips: [] };
+            locations.push(location);
         }
+
+        // Add the trip and update localStorage
+        location.trips.push(trip);
+        localStorage.setItem("locations", JSON.stringify(locations));
+
+        alert("Trip added!");
+        
+        // Display the trip on the map
+        addTripToMap(location);
     } else {
         alert("Please enter the trip details.");
     }
 }
+
 
   
     </script>
