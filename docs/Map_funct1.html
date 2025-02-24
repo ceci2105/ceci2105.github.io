@@ -169,20 +169,6 @@
             // Here you could implement further logic to store the booking in a database
         }
 
-    document.getElementById('addTripBtn').addEventListener('click', function() {
-    // Verifica se l'utente ha già compilato il modulo
-    if (!localStorage.getItem('hasSubmittedForm')) {
-        // Se non ha compilato il modulo, rimandiamo al modulo Google
-        window.open("https://docs.google.com/forms/d/e/1FAIpQLScrmHLRtRCBAT2fF3Tqc4KFuFH1Xp-MsRPBdEKIY5Fh-MF_cA/viewform?usp=dialog", "_blank");
-    } else {
-        // Se l'utente ha già compilato il modulo, solo il prompt
-        const locationName = prompt("Enter the location name where you want to add a trip:");
-        if (locationName) {
-            addTrip(locationName);
-        }
-    }
-});
-
 function addTrip(locationName) {
     // Mostra un prompt per inserire i dettagli del viaggio
     const trip = prompt("Enter trip details (e.g., 10:30 - Car - Alice234 → Heerlen):");
@@ -204,36 +190,7 @@ function addTrip(locationName) {
         alert("Please enter the trip details.");
     }
 }
-function addTripToMap(location) {
-    // Aggiungi un marker o una finestra informativa per ogni viaggio
-    location.trips.forEach(trip => {
-        const infoWindow = new google.maps.InfoWindow({
-            content: `<p>${trip}</p>`, // Mostra i dettagli del viaggio
-            position: { lat: location.lat, lng: location.lng }
-        });
-
-        infoWindow.open(map);
-    });
-}
-
-// Funzione per gestire il ritorno dal modulo
-function handleFormReturn() {
-    // Quando l'utente torna dalla pagina del modulo, salviamo un flag
-    localStorage.setItem('hasSubmittedForm', 'true');
-}
-
-// Aggiungi l'ascoltatore per gestire il ritorno dalla pagina del modulo
-window.onbeforeunload = function() {
-    if (window.location.href.indexOf("viewform") === -1) {
-        handleFormReturn();
-    }
-};
-
-// Inizializzare la mappa all'avvio
-window.onload = function() {
-    initMap();
-};
-       
+  
     </script>
 </body>
 </html>
