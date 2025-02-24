@@ -177,7 +177,27 @@
 function addTrip(locationName) {
 
     window.open("https://docs.google.com/forms/d/1FyuG_q627CEvXdoPtL7IPzSl55D8KtfTJog0sjSmpj8/edit", "_blank");
+
+    const trip = prompt("Enter trip details (e.g., 10:30 - Car - Alice234 → Heerlen):");
+    
+    if (trip) {
+        const location = locations.find(loc => loc.name === locationName);
+        
+        if (location) {
+            // Aggiungi il viaggio all'array della location
+            location.trips.push(trip);
+            alert("Trip added!");
+            
+            // Visualizza il viaggio sulla mappa
+            addTripToMap(location);
+        } else {
+            alert("Location not found.");
+        }
+    } else {
+        alert("Please enter the trip details.");
+    }
 }
+google.maps.event.addDomListener(window, "load", initMap);
        
                 
                 
