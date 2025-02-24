@@ -170,23 +170,25 @@
         }
 
 function addTrip(locationName) {
-    // Mostra un prompt per inserire i dettagli del viaggio
     const trip = prompt("Enter trip details (e.g., 10:30 - Car - Alice234 → Heerlen):");
-
-        // Aggiungi il viaggio all'array della location
-        location.trips.push(trip);
-        alert("Trip added!");
-
-        // Salva l'array aggiornato nel localStorage
-        localStorage.setItem('trips', JSON.stringify(savedTrips));
-
-        // Aggiunge il viaggio sulla mappa immediatamente
-        addTripToMap(location);
+    
+    if (trip) {
+        const location = locations.find(loc => loc.name === locationName);
+        
+        if (location) {
+            // Aggiungi il viaggio all'array della location
+            location.trips.push(trip);
+            alert("Trip added!");
+            
+            // Visualizza il viaggio sulla mappa
+            addTripToMap(location);
+        } else {
+            alert("Location not found.");
+        }
     } else {
         alert("Please enter the trip details.");
     }
 }
-
 
   
     </script>
