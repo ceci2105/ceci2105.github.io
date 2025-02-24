@@ -172,24 +172,47 @@
 function addTrip(locationName) {
     // Mostra un prompt per inserire i dettagli del viaggio
     const trip = prompt("Enter trip details (e.g., 10:30 - Car - Alice234 → Heerlen):");
-    
+
     if (trip) {
-        const location = locations.find(loc => loc.name === locationName);
+        // Recupera i dati salvati in localStorage
+        let savedTrips = JSON.parse(localStorage.getItem('trips')) || [];
+
+        // Trova la location nell'array salvato o creala se non esiste
+        let location = savedTrips.find(loc => loc.name === locationName);
         
-        if (location) {
-            // Aggiungi il viaggio all'array della location
-            location.trips.push(trip);
-            alert("Trip added!");
-            
-            // Visualizza il viaggio sulla mappa
-            addTripToMap(location);
-        } else {
-            alert("Location not found.");
+        if (!location) {
+            location = { name: locationName, trips: [] };
+            savedTrips.push(location);
         }
+
+        // Aggiungi il viaggio all'array della location
+        location.trips.push(trip);
+        alert("Trip added!");
+
+        // Salva l'array aggiornato nel localStorage
+        localStorage.setItem('trips', JSON.stringify(savedTrips));
+
+        // Visualizza il viaggio sulla mappa
+        addTripToMap(location);
     } else {
         alert("Please enter the trip details.");
     }
 }
+
+// Funzione per caricare i viaggi salvati dal localStorage quando si carica la mappa
+function loadSavedTrips() {
+    let savedTrips = JSON.parse(localStorage.getItem('trips')) || [];
+
+    savedTrips.forEach(location => {
+        addTripToMap(location);
+    });
+}
+
+// Carica i viaggi salvati quando la pagina viene caricata
+window.onload = function() {
+    initMap();
+    loadSavedTrips();
+};
   
     </script>
 </body>
