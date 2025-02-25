@@ -165,12 +165,10 @@
 
 
         function bookTrip(trip) {
-            alert(`You have booked: ${trip}`);
-            const bookTrip = (tripId: number, formUrl: string, setAvailableTrips: Function) => {
-           const confirmBooking = window.confirm("Are you sure to book this trip?");
-           if (confirmBooking) {
-          setAvailableTrips((prevTrips: any[]) => prevTrips.filter((trip) => trip.id !== tripId));
-          window.open(formUrl, "_blank");
+            const bookTrip = () => {
+            window.confirm("Are you sure you want to book this trip?");
+};
+
   }
 };
 
