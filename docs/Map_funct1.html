@@ -174,11 +174,21 @@
         if (location) {
             // Remove the booked trip using filter() (similar to "pull")
             location.trips = location.trips.filter(t => t !== trip);
+
+            
+            // Update the info window
+            updateInfoWindow(location);
         }
     }
 }
 
-  
+function updateInfoWindow(location) {
+    const tripList = location.trips.map(t => 
+        `<p><a href="#" onclick="bookTrip('${location.name}', '${t}')">${t}</a></p>`
+    ).join("");
+
+    location.infoWindow.setContent(`<h3>${location.name}</h3>${tripList || "<p>No trips available</p>"}`);
+}
 
 function addTrip(locationName) {
     const trip = prompt("Enter trip details (e.g., 10:30 - Car - Alice234 → Heerlen):");
