@@ -165,9 +165,10 @@
 
 
         function bookTrip(trip) {
-            const bookTrip = () => {
-            window.confirm("Sei sicuro di voler prenotare questo viaggio?");
-            };
+        const confirmBooking = window.confirm(`Are you sure to book this trip: ${trip}?`);
+        if (confirmBooking) {
+        alert(`You booked the trip: ${trip}`);
+    }
 };
 
   
