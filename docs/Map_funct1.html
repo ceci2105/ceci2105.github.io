@@ -122,7 +122,7 @@
 
                 marker.addListener("click", () => {
                     let tripList = location.trips.map(trip => 
-                        `<p><a href="#" onclick="bookTrip('${trip}')">${trip}</a></p>`
+                         `<p><a href="#" onclick="bookTrip('${location.name}', '${trip}')">${trip}</a></p>`
                     ).join("");
 
                     tripList += `
@@ -164,7 +164,7 @@
         }
 
 
-        function bookTrip(locationName, trip) {
+function bookTrip(locationName, trip) {
     const confirmBooking = window.confirm(`Are you sure to book this trip: ${trip}?`);
     if (confirmBooking) {
         alert(`You booked the trip: ${trip}`);
@@ -172,16 +172,16 @@
         // Find the correct location
         const location = locations.find(loc => loc.name === locationName);
         if (location) {
-            // Remove the booked trip using filter() (similar to "pull")
+            // Remove the booked trip using filter()
             location.trips = location.trips.filter(t => t !== trip);
 
-            
             // Update the info window
             updateInfoWindow(location);
         }
     }
 }
 
+// Function to update the info window after booking
 function updateInfoWindow(location) {
     const tripList = location.trips.map(t => 
         `<p><a href="#" onclick="bookTrip('${location.name}', '${t}')">${t}</a></p>`
