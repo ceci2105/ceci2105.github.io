@@ -164,12 +164,19 @@
         }
 
 
-        function bookTrip(trip) {
-        const confirmBooking = window.confirm(`Are you sure to book this trip: ${trip}?`);
-        if (confirmBooking) {
+        function bookTrip(locationName, trip) {
+    const confirmBooking = window.confirm(`Are you sure to book this trip: ${trip}?`);
+    if (confirmBooking) {
         alert(`You booked the trip: ${trip}`);
+
+        // Find the correct location
+        const location = locations.find(loc => loc.name === locationName);
+        if (location) {
+            // Remove the booked trip using filter() (similar to "pull")
+            location.trips = location.trips.filter(t => t !== trip);
+        }
     }
-};
+}
 
   
 
