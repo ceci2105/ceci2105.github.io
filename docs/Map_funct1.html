@@ -168,7 +168,7 @@ function bookTrip(locationName, trip) {
     const confirmBooking = window.confirm(`Are you sure to book this trip: ${trip}?`);
     if (confirmBooking) {
         alert(`You booked the trip, remember it and fill out the form: ${trip}`);
-         window.open('https://docs.google.com/forms/d/e/1FAIpQLSc5O_N2e5ga_p-cuJhIr474fvDX7SnQCDNuKXcHL-VsmLOhcQ/viewform?usp=dialog', '_blank');
+         
 
         // Find the correct location
         const location = locations.find(loc => loc.name === locationName);
