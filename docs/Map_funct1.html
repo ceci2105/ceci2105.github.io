@@ -166,7 +166,14 @@
 
         function bookTrip(trip) {
             alert(`You have booked: ${trip}`);
-            // Here you could implement further logic to store the booking in a database
+            const bookTrip = (tripId: number, formUrl: string, setAvailableTrips: Function) => {
+           const confirmBooking = window.confirm("Are you sure to book this trip?");
+           if (confirmBooking) {
+          setAvailableTrips((prevTrips: any[]) => prevTrips.filter((trip) => trip.id !== tripId));
+          window.open(formUrl, "_blank");
+  }
+};
+
         }
 function addTrip(locationName) {
     const trip = prompt("Enter trip details (e.g., 10:30 - Car - Alice234 → Heerlen):");
