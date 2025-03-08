@@ -164,46 +164,7 @@
 
         }
 
-        // Funzione per ottenere l'email dall'URL
-    function getEmailFromURL() {
-        const urlParams = new URLSearchParams(window.location.search);
-        console.log("Email recuperata dall'URL:", email); 
-        return urlParams.get('email');
-    }
-
-    // Funzione per chiamare l'App Script e ottenere i viaggi consigliati
-    function checkRecommendedTrip(email) {
-        fetch(`https://script.google.com/macros/s/AKfycbxEvYBAM-lUZtuIyjpSErpxPwctVCEJ2CTGRYcA0r-Q1on7Sk1-T0_hbpgwaAD6G801/exec?email=${email}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === "match" && data.trips.length > 0) {
-                    // Mostra popup con i viaggi consigliati
-                    const trip = data.trips[0];  // Prendiamo il primo viaggio consigliato
-                    const recommendedTripInfo = `
-                        <h3>Recommended Trip</h3>
-                        <p>Departure: ${trip.departure}</p>
-                        <p>Arrival: ${trip.arrival}</p>
-                        <p>Driver: ${trip.driver}</p>
-                    `;
-                    showPopup(recommendedTripInfo);
-                } else {
-                    console.log("No matching trip found.");
-                }
-            })
-            .catch(error => console.error("Error fetching trip data:", error));
-    }
-
-    // Funzione per mostrare il popup con i dettagli del viaggio
-    function showPopup(content) {
-        const infowindow = new google.maps.InfoWindow({
-            content: content,
-             position: userMarker.getPosition() // Puoi cambiare la posizione
-        });
-        infowindow.open(map);
-    }
-
-
-
+  
 function bookTrip(locationName, trip) {
     const confirmBooking = window.confirm(`Are you sure to book this trip: ${trip}?`);
     if (confirmBooking) {
