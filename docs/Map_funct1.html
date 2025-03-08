@@ -161,6 +161,8 @@
             } else {
                 alert("Geolocation is not supported by your browser.");
             }
+
+            checkFrequentTrips();
         }
 
 
@@ -211,6 +213,18 @@ function addTrip(locationName) {
         alert("Please enter the trip details.");
     }
 } 
+
+        function checkFrequentTrips() {
+            fetch("https://script.google.com/macros/s/AKfycbxEvYBAM-lUZtuIyjpSErpxPwctVCEJ2CTGRYcA0r-Q1on7Sk1-T0_hbpgwaAD6G801/exec")
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === "match") {
+                        let tripDetails = data.trips.map(trip => `${trip.departure} → ${trip.arrival} (Driver: ${trip.driver})`).join("\n");
+                        alert(`We noticed you like this trip!\n${tripDetails}`);
+                    }
+                })
+                .catch(error => console.error("Error fetching trip data:", error));
+        }
 
   
     </script>
