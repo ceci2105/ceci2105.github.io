@@ -167,6 +167,7 @@
         // Funzione per ottenere l'email dall'URL
     function getEmailFromURL() {
         const urlParams = new URLSearchParams(window.location.search);
+        console.log("Email recuperata dall'URL:", email); 
         return urlParams.get('email');
     }
 
