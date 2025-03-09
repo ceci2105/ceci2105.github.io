@@ -171,19 +171,19 @@ function bookTrip(locationName, trip) {
         alert(`You booked the trip, remember it and fill out the form: ${trip}`);
          
 
-        // Find the correct location
+       
         const location = locations.find(loc => loc.name === locationName);
         if (location) {
-            // Remove the booked trip using filter()
+            
             location.trips = location.trips.filter(t => t !== trip);
 
-            // Update the info window
+            
             updateInfoWindow(location);
         }
     }
 }
 
-// Function to update the info window after booking
+
 function updateInfoWindow(location) {
     const tripList = location.trips.map(t => 
         `<p><a href="#" onclick="bookTrip('${location.name}', '${t}')">${t}</a></p>`
@@ -199,11 +199,11 @@ function addTrip(locationName) {
         const location = locations.find(loc => loc.name === locationName);
         
         if (location) {
-            // Aggiungi il viaggio all'array della location
+            
             location.trips.push(trip);
             alert("Trip added!");
             
-            // Visualizza il viaggio sulla mappa
+            
             addTripToMap(location);
         } else {
             alert("Location not found.");
